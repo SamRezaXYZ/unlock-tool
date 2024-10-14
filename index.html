@@ -19,7 +19,7 @@
 
             fetch('https://api.github.com/repos/offici5l/unlock-tool/contents/product.json', {
                 headers: {
-                    'Authorization': 'token ***REMOVED***'
+                    'Authorization': 'token ' + GITHUB_TOKEN
                 }
             })
             .then(response => response.json())
@@ -29,7 +29,7 @@
                 return fetch('https://api.github.com/repos/offici5l/unlock-tool/contents/product.json', {
                     method: 'PUT',
                     headers: {
-                        'Authorization': 'token ***REMOVED***',
+                        'Authorization': 'token ' + GITHUB_TOKEN,
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
