@@ -15,7 +15,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install requests pycryptodome
+        pip install requests pycryptodomex
 
     - name: Run Unlock Script
       run: |
