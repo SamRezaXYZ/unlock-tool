@@ -1,0 +1,22 @@
+name: Xiaomi Unlock
+
+on:
+  push:
+    paths:
+      - 'product.json'
+
+jobs:
+  run_unlock:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        pip install requests pycryptodome
+
+    - name: Run Unlock Script
+      run: |
+        python unlock.py
