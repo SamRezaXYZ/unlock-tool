@@ -7,7 +7,7 @@
     <h1>Unlock Tool</h1>
     <form id="unlock-form">
         <label for="product">Enter Product:</label>
-        <input type="text" id="product" name="product">
+        <input type="text" id="product" name="product" required>
         <button type="submit">Unlock</button>
     </form>
     <div id="result"></div>
@@ -17,44 +17,28 @@
             event.preventDefault();
             const product = document.getElementById('product').value;
 
-            fetch('https://api.github.com/repos/offici5l/unlock-tool/contents/product.json', {
+           
+            fetch('https://api.github.com/repos/offici5l/unlock-tool/actions/workflows/unlock.yml/dispatches', {
+                method: 'POST',
                 headers: {
-                    'Authorization': 'token ' + GTOKEN
-                }
-            })
-            .then(response => response.json())
-            .then(fileData => {
-                const sha = fileData.sha;
-
-                return fetch('https://api.github.com/repos/offici5l/unlock-tool/contents/product.json', {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': 'token ' + GTOKEN,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        message: 'Update product',
-                        content: btoa(JSON.stringify({ product: product })),
-                        sha: sha
-                    })
-                });
+                    'Authorization': 'token ' + GTOKEN,
+                    'Accept': 'application/vnd.github.v3+json'
+                },
+                body: JSON.stringify({
+                    ref: 'main',
+                    inputs: {
+                        product: product
+                    }
+                })
             })
             .then(response => response.json())
             .then(data => {
-                document.getElementById('result').innerText = 'Waiting for result...';
-
-                fetch('https://raw.githubusercontent.com/offici5l/unlock-tool/main/result.json')
-                    .then(response => response.json())
-                    .then(data => {
-                        const cleanOrNot = data.cleanOrNot;
-                        if (cleanOrNot == 1) {
-                            document.getElementById('result').innerText = 'This device clears user data when it is unlocked';
-                        } else if (cleanOrNot == -1) {
-                            document.getElementById('result').innerText = 'Unlocking the device does not clear user data';
-                        }
-                    });
+                document.getElementById('result').innerText = 'Unlocking process initiated. Check the result later.';
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('result').innerText = 'An error occurred. Please try again.';
+            });
         });
     </script>
 </body>

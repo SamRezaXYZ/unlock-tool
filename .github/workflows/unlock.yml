@@ -1,22 +1,24 @@
 name: Xiaomi Unlock
 
 on:
-  push:
-    paths:
-      - 'product.json'
+  workflow_dispatch:
+    inputs:
+      product:
+        description: 'Enter Product'
+        required: true
 
 jobs:
   run_unlock:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout the repository
-      uses: actions/checkout@v2
+      - name: Checkout the repository
+        uses: actions/checkout@v2
 
-    - name: Install dependencies
-      run: |
-        pip install requests pycryptodomex
+      - name: Install dependencies
+        run: |
+          pip install requests pycryptodomex
 
-    - name: Run Unlock Script
-      run: |
-        python unlock.py
+      - name: Run Unlock Script
+        run: |
+          python unlock.py ${{ github.event.inputs.product }} 

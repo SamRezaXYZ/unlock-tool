@@ -9,7 +9,7 @@ for lib in ['Cryptodome', 'urllib3', 'requests']:
         cmd = f'pip install {lib}'
         os.system(cmd)
 
-import requests, hmac, binascii, hashlib, json, random
+import requests, hmac, binascii, hashlib, json, random, sys
 from urllib3.util.url import Url
 from base64 import b64encode, b64decode
 from Cryptodome.Cipher import AES
@@ -20,9 +20,7 @@ ssecurity = "E5I30OwrwmlbZwB6HaQRtw=="
 cookies = {'serviceToken': 'zLRA8c2eG6dVzb6SiGwM0XSbQItw0/QGW++HiqZGC52nQXGqu9+WEZIwaHQL5G40xz7fucUFNgX4AT0IzO9tn/Gu1QKN4s7Yukcf+vRzE79vBJgJKkPlPCJWu129VkcXutCqPFpNOg9JtR0d3nWeRAs3HhaLVRlzp3BP86fJxeu5ecNepEpP4+hz8ziEJoJiK+8FmSAsLNGPmLB2eAsOC6bJli5OM9ZntuAN5acVOdcc3TCSUbCWes7WNUnVZZsdv4OPGdUnUL4NE8TM8fmmS8MGE8C/gexq/kFidEAFAkXFjtXnvwp9WdRotl28YuS2', 'unlockApi_slh': 'SM8Pcw7FBMxcGEbaLbriww3U8cw=', 'unlockApi_ph': '1vGyafLHcg/9jJfslNN5LA==', 'userId': '6761184147'}
 url = "unlock.update.intl.miui.com"
 
-with open('product.json', 'r') as f:
-    data = json.load(f)
-    product = data['product']
+product = sys.argv[1]
 
 class RetrieveEncryptData:
     def add_nonce(self):
@@ -45,5 +43,4 @@ class RetrieveEncryptData:
 c = RetrieveEncryptData("/api/v2/unlock/device/clear", {"data":{"product":product}}).add_nonce().run()
 cleanOrNot = c['cleanOrNot']
 
-with open('result.json', 'w') as result_file:
-    json.dump({'cleanOrNot': cleanOrNot}, result_file)
+print("\ncleanOrNot:", cleanOrNot)
