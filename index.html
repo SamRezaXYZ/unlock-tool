@@ -29,7 +29,7 @@
                 return fetch('https://api.github.com/repos/offici5l/unlock-tool/contents/product.json', {
                     method: 'PUT',
                     headers: {
-                        'Authorization': 'token ' + GITHUB_TOKEN,
+                        'Authorization': 'token ' + GTOKEN,
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
